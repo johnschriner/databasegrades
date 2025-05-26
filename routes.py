@@ -2,6 +2,8 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from models import User, DatabaseEntry
+from flask_dance.contrib.google import google
+
 
 @login_manager.user_loader
 def load_user(user_id):
