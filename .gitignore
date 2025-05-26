@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+
+# Flask-specific
+instance/
+.env
+db.sqlite3
+
+# Virtual environments
+venv/
+
+# Editor/OS files
+.DS_Store

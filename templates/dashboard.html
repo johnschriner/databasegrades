@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard - DatabaseGrade</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border-bottom: 1px solid #ccc; }
+    .badge { padding: 4px 8px; color: white; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>DatabaseGrade Dashboard</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Grade</th>
+        <th>Trackers</th>
+        <th>Accessibility</th>
+        <th>Open Format</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for db in entries %}
+      <tr>
+        <td>{{ db.name }}</td>
+        <td><a href="{{ db.url }}" target="_blank">{{ db.url }}</a></td>
+        <td><span class="badge" style="background-color: {{ grade_color(db.grade) }}">{{ db.grade }}</span></td>
+        <td>{{ db.tracker_score or 'N/A' }}</td>
+        <td>{{ db.accessibility_score or 'N/A' }}</td>
+        <td>{{ db.open_format_score or 'N/A' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
