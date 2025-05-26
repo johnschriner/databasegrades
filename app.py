@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import Config
 from flask_dance.contrib.google import make_google_blueprint, google
+import os
 
 
 # Initialize Flask
