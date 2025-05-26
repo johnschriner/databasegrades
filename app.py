@@ -19,8 +19,3 @@ login_manager.login_view = 'login'
 
 # Import routes last
 import routes
-
-# Run migrations automatically at startup (TEMPORARY)
-with app.app_context():
-    from flask_migrate import upgrade
-    upgrade()
