@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Management</title>
+</head>
+<body>
+  <h1>🧑‍💼 User Management</h1>
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Change Role</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <form method="post" style="display:inline;">
+          <input type="hidden" name="user_id" value="{{ user.id }}">
+          <select name="new_role">
+            <option value="viewer" {% if user.role == 'viewer' %}selected{% endif %}>Viewer</option>
+            <option value="editor" {% if user.role == 'editor' %}selected{% endif %}>Editor</option>
+            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

@@ -64,18 +64,22 @@ def submit():
         return redirect(url_for('dashboard'))
     return render_template('submit.html')
 
-@app.route('/make-admin/<int:user_id>')
+@app.route('/users', methods=['GET', 'POST'])
 @login_required
-def make_admin(user_id):
+def manage_users():
     if current_user.role != 'admin':
         return "Unauthorized", 403
-    user = User.query.get(user_id)
-    if user:
-        user.role = 'admin'
-        db.session.commit()
-        return f"{user.email} promoted to admin."
-    return "User not found", 404
 
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        new_role = request.form['new_role']
+        user = User.query.get(user_id)
+        if user:
+            user.role = new_role
+            db.session.commit()
+
+    users = User.query.order_by(User.email).all()
+    return render_template('users.html', users=users)
 
 
 @app.route('/dashboard')
