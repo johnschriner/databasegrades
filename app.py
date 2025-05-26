@@ -36,3 +36,7 @@ import routes
 with app.app_context():
     from flask_migrate import upgrade
     upgrade()
+
+with app.app_context():
+    print(f"Connected to: {db.engine.url}")
+    print(f"Dialect: {db.engine.dialect.name}")
