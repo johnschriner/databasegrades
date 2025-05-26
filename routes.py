@@ -81,6 +81,15 @@ def manage_users():
     users = User.query.order_by(User.email).all()
     return render_template('users.html', users=users)
 
+@app.route('/bootstrap-admin')
+@login_required
+def bootstrap_admin():
+    if current_user.role != 'admin':
+        current_user.role = 'admin'
+        db.session.commit()
+        return f"{current_user.email} is now an admin ✅"
+    return "You are already an admin."
+
 
 @app.route('/dashboard')
 def dashboard():
