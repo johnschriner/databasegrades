@@ -2,7 +2,10 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from models import User, DatabaseEntry
+<<<<<<< HEAD
 from flask import Markup
+=======
+>>>>>>> 6d1f5582c6f68a1fd0acf1d3102045c88a3a33e6
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -50,6 +53,7 @@ def submit():
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('submit.html')
+<<<<<<< HEAD
 
 @app.route('/dashboard')
 def dashboard():
@@ -65,3 +69,5 @@ def dashboard():
     return render_template('dashboard.html', entries=entries, grade_color=grade_color)
 
 
+=======
+>>>>>>> 6d1f5582c6f68a1fd0acf1d3102045c88a3a33e6
