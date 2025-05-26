@@ -31,3 +31,8 @@ login_manager.login_view = 'login'
 
 # Import routes last
 import routes
+
+# TEMP: Run DB migrations at startup on Render
+with app.app_context():
+    from flask_migrate import upgrade
+    upgrade()
