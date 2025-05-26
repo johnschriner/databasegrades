@@ -9,6 +9,17 @@
   </style>
 </head>
 <body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li style="color:{% if category == 'error' %}red{% else %}green{% endif %};">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
   <h1>DatabaseGrade Dashboard</h1>
   {% if current_user.is_authenticated %}
   <p>✅ Logged in as: <strong>{{ current_user.email }}</strong></p>

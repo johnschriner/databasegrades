@@ -45,7 +45,7 @@ def logout():
 @login_required
 def submit():
     if current_user.role not in ['editor', 'admin']:
-        flash("You don't have permission to submit entries.")
+        flash("You do not have permission to submit entries.", "error")
         return redirect(url_for('dashboard'))
 
     if request.method == 'POST':
@@ -61,8 +61,11 @@ def submit():
         )
         db.session.add(entry)
         db.session.commit()
+        flash("Entry submitted successfully!")
         return redirect(url_for('dashboard'))
+
     return render_template('submit.html')
+
 
 @app.route('/users', methods=['GET', 'POST'])
 @login_required
@@ -77,6 +80,7 @@ def manage_users():
         if user:
             user.role = new_role
             db.session.commit()
+            flash(f"{user.email} updated to role: {new_role}")
 
     users = User.query.order_by(User.email).all()
     return render_template('users.html', users=users)
