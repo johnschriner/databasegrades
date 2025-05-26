@@ -21,9 +21,7 @@ google_bp = make_google_blueprint(
         "https://www.googleapis.com/auth/userinfo.email",
         "openid"
     ],
-    redirect_to="dashboard",
-    offline=True,
-    authorization_url_params={"access_type": "offline"}
+    redirect_to="dashboard"
 )
 
 app.register_blueprint(google_bp, url_prefix="/login")
