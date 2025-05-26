@@ -16,8 +16,16 @@ google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_OAUTH_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
     redirect_url="/login/google/authorized",
-    scope=["profile", "email"],
+    scope=[
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "openid"
+    ],
+    redirect_to="dashboard",
+    offline=True,
+    authorization_url_params={"access_type": "offline"}
 )
+
 app.register_blueprint(google_bp, url_prefix="/login")
 
 # Import db from models and init it here
