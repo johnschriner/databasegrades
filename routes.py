@@ -27,7 +27,7 @@ def login():
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        user = User(email=email)
+        user = User(email=email, role='viewer')
         db.session.add(user)
         db.session.commit()
 
@@ -44,6 +44,10 @@ def logout():
 @app.route('/submit', methods=['GET', 'POST'])
 @login_required
 def submit():
+    if current_user.role not in ['editor', 'admin']:
+        flash("You don't have permission to submit entries.")
+        return redirect(url_for('dashboard'))
+
     if request.method == 'POST':
         entry = DatabaseEntry(
             name=request.form['name'],
@@ -59,6 +63,20 @@ def submit():
         db.session.commit()
         return redirect(url_for('dashboard'))
     return render_template('submit.html')
+
+@app.route('/make-admin/<int:user_id>')
+@login_required
+def make_admin(user_id):
+    if current_user.role != 'admin':
+        return "Unauthorized", 403
+    user = User.query.get(user_id)
+    if user:
+        user.role = 'admin'
+        db.session.commit()
+        return f"{user.email} promoted to admin."
+    return "User not found", 404
+
+
 
 @app.route('/dashboard')
 def dashboard():
