@@ -16,6 +16,9 @@
   <p>❌ You are not logged in. <a href="{{ url_for('login') }}">Login here</a></p>
 {% endif %}
 <p>👤 Role: <strong>{{ current_user.role }}</strong></p>
+{% if current_user.role == 'admin' %}
+  <p><a href="{{ url_for('manage_users') }}">🔐 Manage Users</a></p>
+{% endif %}
 
 
   <table>
