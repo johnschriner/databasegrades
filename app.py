@@ -3,10 +3,21 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import Config
+from flask_dance.contrib.google import make_google_blueprint, google
+
 
 # Initialize Flask
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Add google auth
+google_bp = make_google_blueprint(
+    client_id=os.getenv("GOOGLE_OAUTH_CLIENT_ID"),
+    client_secret=os.getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
+    redirect_url="/login/google/authorized",
+    scope=["profile", "email"],
+)
+app.register_blueprint(google_bp, url_prefix="/login")
 
 # Import db from models and init it here
 from models import db, User, DatabaseEntry

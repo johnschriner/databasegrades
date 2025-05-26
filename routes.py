@@ -11,17 +11,25 @@ def load_user(user_id):
 def index():
     return redirect(url_for('dashboard'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route("/login")
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        user = User.query.filter_by(email=email).first()
-        if user:
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        else:
-            flash('User not found.')
-    return render_template('login.html')
+    if not google.authorized:
+        return redirect(url_for("google.login"))
+
+    resp = google.get("/oauth2/v2/userinfo")
+    assert resp.ok, resp.text
+    email = resp.json()["email"]
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        # First-time login: auto-register as viewer
+        user = User(email=email)
+        db.session.add(user)
+        db.session.commit()
+
+    login_user(user)
+    return redirect(url_for("dashboard"))
+
 
 @app.route('/logout')
 @login_required
