@@ -2,10 +2,6 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, login_manager
 from models import User, DatabaseEntry
-<<<<<<< HEAD
-from flask import Markup
-=======
->>>>>>> 6d1f5582c6f68a1fd0acf1d3102045c88a3a33e6
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -13,18 +9,16 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    entries = DatabaseEntry.query.all()
-    return render_template('index.html', entries=entries)
+    return redirect(url_for('dashboard'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Placeholder login (replace with Google OAuth later)
     if request.method == 'POST':
         email = request.form['email']
         user = User.query.filter_by(email=email).first()
         if user:
             login_user(user)
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard'))
         else:
             flash('User not found.')
     return render_template('login.html')
@@ -51,23 +45,11 @@ def submit():
         )
         db.session.add(entry)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard'))
     return render_template('submit.html')
-<<<<<<< HEAD
 
 @app.route('/dashboard')
 def dashboard():
     entries = DatabaseEntry.query.all()
 
-    def grade_color(grade):
-        colors = {
-            'A': 'green', 'B': 'limegreen', 'C': 'gold',
-            'D': 'orange', 'F': 'red'
-        }
-        return colors.get(grade.upper(), 'gray')
-
-    return render_template('dashboard.html', entries=entries, grade_color=grade_color)
-
-
-=======
->>>>>>> 6d1f5582c6f68a1fd0acf1d3102045c88a3a33e6
+    def grade
