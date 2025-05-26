@@ -16,15 +16,17 @@ def index():
 @app.route("/login")
 def login():
     if not google.authorized:
+        print("❌ Not authorized, redirecting to Google...")
         return redirect(url_for("google.login"))
 
     resp = google.get("/oauth2/v2/userinfo")
-    assert resp.ok, resp.text
+    print("✅ Google response:", resp.json())  # 👈 Add this line
+
     email = resp.json()["email"]
+    print("👤 Email returned:", email)
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        # First-time login: auto-register as viewer
         user = User(email=email)
         db.session.add(user)
         db.session.commit()
