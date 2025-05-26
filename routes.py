@@ -52,4 +52,11 @@ def submit():
 def dashboard():
     entries = DatabaseEntry.query.all()
 
-    def grade
+    def grade_color(grade):
+        colors = {
+            'A': 'green', 'B': 'limegreen', 'C': 'gold',
+            'D': 'orange', 'F': 'red'
+        }
+        return colors.get(grade.upper(), 'gray')
+
+    return render_template('dashboard.html', entries=entries, grade_color=grade_color)
